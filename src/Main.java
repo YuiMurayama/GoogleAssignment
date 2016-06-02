@@ -23,24 +23,18 @@ public class Main {
 		// print_data(wordList);
 		quick_sort(wordList, 0, wordList.size() - 1); // wordListが文字が小さい順に並んだ！
 		// print_data(wordList);
-
 		outputFile("Output/output.csv", wordList); // wordListをファイルに書き込む
 
-		// ここからようやくサーチ！
 		int[] inputArray = changeWordToMethod(input); // inputを26行メソッドに変換
 		for (int i = 0; i < inputArray.length; i++) { // その行列の表示
-			System.out.print(inputArray[i]);
 		}
 		System.out.println();
-		
-		int wordNum =findWord(input,wordList);
+		int wordNum = findWord(input, wordList);
 		System.out.println(wordList.get(wordNum));
-	
-		
 	}
 
 	// 辞書から一致する単語を探索
-	static int findWord(String input, List<String> wordList) { 
+	static int findWord(String input, List<String> wordList) {
 		for (int i = 0; i < wordList.size(); i++) {
 			if (judgeWord(input, wordList.get(i)) == true) {
 				return i;
@@ -49,8 +43,8 @@ public class Main {
 		return -1;
 	}
 
-	// 二つの単語を入力、含まれてたらtrueを返す
-	static boolean judgeWord(String input, String word) { 
+	// 辞書とインプットを入力して、作れるならtrueを返す
+	static boolean judgeWord(String input, String word) {
 		int[] inputArray = changeWordToMethod(input);
 		int[] dictionaryWordArray = changeWordToMethod(word);
 		for (int i = 0; i < inputArray.length; i++) {
@@ -97,8 +91,7 @@ public class Main {
 		}
 	}
 
-	// クイックソート
-
+	// 辞書リストを文字数の多い順から並び替えるためのクイックソート
 	static void quick_sort(List<String> wordList, int left, int right) {
 		if (left >= right) {
 			return;
@@ -132,19 +125,10 @@ public class Main {
 		System.out.println();
 	}
 
-	// 配列内のデータ列を表示する
-	static void print_data(int[] d) {
-		for (int i = 0; i < d.length; i++)
-			System.out.print(d[i] + " ");
-		System.out.println();
-	}
-
-
 	// wordを26行の配列（種類別)変換する
 	static int[] changeWordToMethod(String word) {
 		char[] charWord = word.toCharArray();
 		int[] wordTypeMethod = new int[26];
-
 		for (int i = 0; i < wordTypeMethod.length; i++) { // 全てを０にして初期化
 			wordTypeMethod[i] = 0;
 		}
@@ -154,11 +138,10 @@ public class Main {
 				continue;
 			wordTypeMethod[order]++;
 		}
-
 		return wordTypeMethod;
 	}
 
-	// 文字を入れたときにそれをアルファベット順の番号で返す
+	// 一文字を入れたときにそれをアルファベット順の番号で返す
 	static int changeStringToInt(char word) {
 		if (word == '-') {
 			return -1;
