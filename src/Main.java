@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 	public static void main(String args[]) {
@@ -17,7 +18,11 @@ public class Main {
 	}
 
 	private void mainLoop() {
-		String input = "abcdefghiyuserwtan"; // inputの16文字のアルファベット
+		
+		Scanner scan = new Scanner(System.in);
+	    String str = scan.next();
+			
+//		 str = "abcdefghiyuserwtan"; // inputの16文字のアルファベット
 		List<String> wordList = openFile("/usr/share/dict/words"); // wordlistというリスト
 
 		// print_data(wordList);
@@ -25,10 +30,10 @@ public class Main {
 		// print_data(wordList);
 		outputFile("Output/output.csv", wordList); // wordListをファイルに書き込む
 
-		int[] inputArray = changeWordToMethod(input); // inputを26行メソッドに変換
+		int[] inputArray = changeWordToMethod(str); // inputを26行メソッドに変換
 		for (int i = 0; i < inputArray.length; i++) { // その行列の表示
 		}
-		int wordNum = findWord(input, wordList);
+		int wordNum = findWord(str, wordList);
 		System.out.println(wordList.get(wordNum));
 	}
 
