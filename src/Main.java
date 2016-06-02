@@ -17,7 +17,7 @@ public class Main {
 	}
 
 	private void mainLoop() {
-		String input = "abcdefghiyuityan"; // inputの16文字のアルファベット
+		String input = "abcdefghiyuserwtan"; // inputの16文字のアルファベット
 		List<String> wordList = openFile("/usr/share/dict/words"); // wordlistというリスト
 
 		// print_data(wordList);
@@ -28,7 +28,6 @@ public class Main {
 		int[] inputArray = changeWordToMethod(input); // inputを26行メソッドに変換
 		for (int i = 0; i < inputArray.length; i++) { // その行列の表示
 		}
-		System.out.println();
 		int wordNum = findWord(input, wordList);
 		System.out.println(wordList.get(wordNum));
 	}
