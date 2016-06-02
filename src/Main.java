@@ -19,7 +19,7 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		String str = scan.next();
 		List<String> wordList = openFile("/usr/share/dict/words"); // wordlistというリスト
-		quick_sort(wordList, 0, wordList.size() - 1); // wordListが文字が小さい順に並んだ！
+		quickSort(wordList, 0, wordList.size() - 1); // wordListが文字が小さい順に並んだ！
 		outputFile("Output/output.csv", wordList); // wordListをファイルに書き込む
 
 		int wordNum = findWord(str, wordList);
@@ -27,7 +27,7 @@ public class Main {
 	}
 
 	// 辞書から一致する単語を探索
-	static int findWord(String input, List<String> wordList) {
+	int findWord(String input, List<String> wordList) {
 		for (int i = 0; i < wordList.size(); i++) {
 			if (judgeWord(input, wordList.get(i)) == true) {
 				return i;
@@ -37,9 +37,9 @@ public class Main {
 	}
 
 	// 辞書とインプットを入力して、作れるならtrueを返す
-	static boolean judgeWord(String input, String word) {
-		int[] inputArray = changeWordToMethod(input);
-		int[] dictionaryWordArray = changeWordToMethod(word);
+	boolean judgeWord(String input, String word) {
+		int[] inputArray = changeWordToArray(input);
+		int[] dictionaryWordArray = changeWordToArray(word);
 		for (int i = 0; i < inputArray.length; i++) {
 			if (inputArray[i] < dictionaryWordArray[i]) {
 				return false;
@@ -48,7 +48,7 @@ public class Main {
 		return true;
 	}
 
-	private List<String> openFile(String fileName) {
+	List<String> openFile(String fileName) {
 		List<String> wordList = new ArrayList<String>();
 		try {
 			Reader filereader = new FileReader(fileName);
@@ -68,7 +68,7 @@ public class Main {
 	}
 
 	// "outputFileメソッド"
-	private void outputFile(String fileName, List<String> stringList) {
+	void outputFile(String fileName, List<String> stringList) {
 		try {
 			Writer writer = new FileWriter(fileName);
 			BufferedWriter bw = new BufferedWriter(writer);
@@ -84,7 +84,7 @@ public class Main {
 	}
 
 	// 辞書リストを文字数の多い順から並び替えるためのクイックソート
-	static void quick_sort(List<String> wordList, int left, int right) {
+	void quickSort(List<String> wordList, int left, int right) {
 		if (left >= right) {
 			return;
 		}
@@ -106,15 +106,15 @@ public class Main {
 				r--;
 			}
 		}
-		quick_sort(wordList, left, r); // ピボットより左側をクイックソート
-		quick_sort(wordList, l, right); // ピボットより右側をクイックソート
+		quickSort(wordList, left, r); // ピボットより左側をクイックソート
+		quickSort(wordList, l, right); // ピボットより右側をクイックソート
 	}
 
 	// wordを26行の配列（種類別)変換する
-	static int[] changeWordToMethod(String word) {
+	int[] changeWordToArray(String word) {
 		char[] charWord = word.toCharArray();
 		int[] wordTypeMethod = new int[26];
-		for (int i = 0; i < wordTypeMethod.length; i++) { 
+		for (int i = 0; i < wordTypeMethod.length; i++) {
 			wordTypeMethod[i] = 0;
 		}
 		for (int i = 0; i < charWord.length; i++) {
@@ -127,7 +127,7 @@ public class Main {
 	}
 
 	// 一文字を入れたときにそれをアルファベット順の番号で返す
-	static int changeStringToInt(char word) {
+	int changeStringToInt(char word) {
 		if (word == '-') {
 			return -1;
 		}
