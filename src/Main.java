@@ -6,9 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,20 +14,14 @@ public class Main {
 	public static void main(String args[]) {
 		(new Main()).mainLoop();
 	}
+
 	private void mainLoop() {
 		Scanner scan = new Scanner(System.in);
 		String str = scan.next();
-		// str = "abcdefghiyuserwtan"; // inputの16文字のアルファベット
 		List<String> wordList = openFile("/usr/share/dict/words"); // wordlistというリスト
-
-		// print_data(wordList);
 		quick_sort(wordList, 0, wordList.size() - 1); // wordListが文字が小さい順に並んだ！
-		// print_data(wordList);
 		outputFile("Output/output.csv", wordList); // wordListをファイルに書き込む
 
-		int[] inputArray = changeWordToMethod(str); // inputを26行メソッドに変換
-		for (int i = 0; i < inputArray.length; i++) { // その行列の表示
-		}
 		int wordNum = findWord(str, wordList);
 		System.out.println(wordList.get(wordNum));
 	}
@@ -118,18 +110,11 @@ public class Main {
 		quick_sort(wordList, l, right); // ピボットより右側をクイックソート
 	}
 
-	// 配列内のデータ列を表示する
-	static void print_data(List<String> wordList) {
-		for (int i = 0; i < wordList.size(); i++)
-			System.out.println(wordList.get(i) + " ");
-		System.out.println();
-	}
-
 	// wordを26行の配列（種類別)変換する
 	static int[] changeWordToMethod(String word) {
 		char[] charWord = word.toCharArray();
 		int[] wordTypeMethod = new int[26];
-		for (int i = 0; i < wordTypeMethod.length; i++) { // 全てを０にして初期化
+		for (int i = 0; i < wordTypeMethod.length; i++) { 
 			wordTypeMethod[i] = 0;
 		}
 		for (int i = 0; i < charWord.length; i++) {
