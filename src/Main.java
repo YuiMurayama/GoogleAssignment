@@ -16,13 +16,10 @@ public class Main {
 	public static void main(String args[]) {
 		(new Main()).mainLoop();
 	}
-
 	private void mainLoop() {
-		
 		Scanner scan = new Scanner(System.in);
-	    String str = scan.next();
-			
-//		 str = "abcdefghiyuserwtan"; // inputの16文字のアルファベット
+		String str = scan.next();
+		// str = "abcdefghiyuserwtan"; // inputの16文字のアルファベット
 		List<String> wordList = openFile("/usr/share/dict/words"); // wordlistというリスト
 
 		// print_data(wordList);
@@ -70,7 +67,6 @@ public class Main {
 			}
 			filereader.close();
 			br.close();
-
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		} catch (IOException e) {
@@ -152,8 +148,6 @@ public class Main {
 		}
 		int ans = Character.getNumericValue(word);
 		if (word >= 'a' && word <= 'z') {
-			// アルファベット小文字の場合
-			// System.out.println(word - 'a');
 		}
 		return ans - 10;
 	}
