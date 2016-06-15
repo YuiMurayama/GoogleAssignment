@@ -10,10 +10,10 @@ public class Calculator {
 		char[] charArray = str.toCharArray();
 		array = tokenize(charArray);
 		for (int i = 0; i < array.size(); i++) {
-//			System.out.println("keyは" + array.get(i).key + " valueは"
-//					+ array.get(i).value);
+			System.out.println("keyは" + array.get(i).key + " valueは"
+					+ array.get(i).value);
 		}
-		System.out.println(evaluate(array));
+//		System.out.println(evaluate(array));
 	}
 
 	static Number readNum(char[] charArray, int index) {
@@ -61,8 +61,14 @@ public class Calculator {
 				n.index = index;
 			} else if (charArray[index] == '-') {
 				n.key = "-";
+				n.index = index;			
+			}else if (charArray[index] == '*'){
+				n.key = "*";
 				n.index = index;
-			} else {
+			}else if (charArray[index] == '/'){
+				n.key = "/";
+				n.index = index;
+			}else {
 				System.out.println("Invalid character found");
 			}
 			index = n.index + 1;
