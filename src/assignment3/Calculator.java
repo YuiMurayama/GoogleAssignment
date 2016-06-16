@@ -1,4 +1,5 @@
 package assignment3;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,17 +11,12 @@ public class Calculator {
 		String str = scan.next();
 		char[] charArray = str.toCharArray();
 		array = makeArray(charArray); // 数字と記号の配列に変換
-
 		boolean isBrackets = isBrackets(array);
-
-		System.out.println("最初の判定"+isBrackets);
-		
 		while (isBrackets == true) {
-			System.out.println("a");
-			array = deleteBracket(array);			
+			array = deleteBracket(array);
 			isBrackets = isBrackets(array);
 		}
-
+		array = changeArray(array);
 		System.out.println(evaluate(array));
 	}
 
@@ -30,11 +26,11 @@ public class Calculator {
 			if (array.get(a).key == '(') {
 				isBrackets = true;
 				return isBrackets;
-			}	
+			}
 		}
 		return isBrackets;
 	}
-	
+
 	// かっこを取り除いて計算して、新しいarrayを返す
 	static ArrayList<Number> deleteBracket(ArrayList<Number> array) {
 		int[] tempArray = findBrackets(array);
@@ -42,7 +38,6 @@ public class Calculator {
 			array = calBrackets(array, tempArray[0], tempArray[1]); // かっこなしのものに変換
 		}
 		tempArray = findBrackets(array);
-
 		return array;
 	}
 
@@ -114,7 +109,6 @@ public class Calculator {
 				} else if (array.get(i - 1).key == '-') {
 					answer -= array.get(i).value;
 				} else {
-					// System.out.println(array.get(i).key);
 					System.out.println("Invalid syntax");
 				}
 			}
@@ -125,7 +119,6 @@ public class Calculator {
 
 	// iからjの範囲の掛け算割り算の計算
 	static ArrayList<Number> calNum(ArrayList<Number> array, int i, int j) {
-		System.out.println("掛け算範囲は" + i + " " + j);
 		double answer = 0;
 		int index = 0;
 
@@ -141,9 +134,7 @@ public class Calculator {
 		int laterIndex = 0;
 		for (int a = i; a < j; a++) {
 			if (array.get(a + 1).key == '*') {
-				System.out.println("a");
 				answer *= array.get(a + 2).value;
-
 			} else if (array.get(a + 1).key == '/') {
 				answer /= array.get(a + 2).value;
 			}
@@ -155,7 +146,6 @@ public class Calculator {
 			array.get(a).value = 0;
 			array.get(a).key = '+';
 		}
-		System.out.println("かけた後answer" + answer);
 		return array;
 	}
 
@@ -165,7 +155,6 @@ public class Calculator {
 				// iは*か/のいち、jは＋か-のいち
 				if (array.get(i).key == '*' | array.get(i).key == '/') {
 					if (array.get(j).key == '+' | array.get(j).key == '-') {
-						System.out.println("iとjは" + i + " " + j);
 						array = calNum(array, i - 1, j - 1);
 					}
 				}
@@ -189,18 +178,16 @@ public class Calculator {
 		for (int a = i - 1; a < j; a++) {
 			newArray.add(array.get(a)); // 新しいリストの生成
 		}
-		printKeyValue(newArray);
 		newArray.get(0).key = '+';
 		newArray.get(j - i).key = '+';
 		newArray = changeArray(newArray); // 掛け算割り算の処理
-		System.out.println(evaluate(newArray));
+		// System.out.println(evaluate(newArray));
 		array.get(i - 1).value = evaluate(newArray);
 		for (int a = i; a < j; a++) {
 			array.get(a).key = '+';
 			array.get(a).value = 0;
 		}
 		array.get(i - 1).key = 'n';
-		System.out.println();
 		return array;
 	}
 
@@ -209,7 +196,6 @@ public class Calculator {
 		int firstBNum = 0;
 		int lastBNum = 0;
 		int[] bracketsRange = { firstBNum, lastBNum };
-
 		for (int i = 0; i < array.size(); i++) {
 			if (array.get(i).key == '(') {
 				firstBNum = i;
@@ -220,8 +206,6 @@ public class Calculator {
 		}
 		bracketsRange[0] = firstBNum + 1;
 		bracketsRange[1] = lastBNum + 1;
-		System.out
-				.println("かっこの数は" + bracketsRange[0] + " " + bracketsRange[1]);
 		return bracketsRange;
 	}
 }
