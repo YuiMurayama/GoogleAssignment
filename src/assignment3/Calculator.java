@@ -1,3 +1,4 @@
+package assignment3;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,10 +10,6 @@ public class Calculator {
 		String str = scan.next();
 		char[] charArray = str.toCharArray();
 		array = makeArray(charArray); // 数字と記号の配列に変換
-//		printKeyValue(array);
-		
-		// int[] tempArray = findBrackets(array); // かっこがある位置を返す
-		// かっこがなくなるまで続ける(かっこを除去してる)
 
 		boolean isBrackets = isBrackets(array);
 
@@ -20,36 +17,10 @@ public class Calculator {
 		
 		while (isBrackets == true) {
 			System.out.println("a");
-			array = deleteBracket(array);
-			
+			array = deleteBracket(array);			
 			isBrackets = isBrackets(array);
-			System.out.println(isBrackets);
-//			printKeyValue(array);
-			
 		}
 
-		// while( array.indexOf())
-
-		// while (tempArray[0] != 0) {
-		// System.out.println(tempArray[0] + " " + tempArray[1]);
-		// if (tempArray[0] != 0) {
-		// array = calBrackets(array, tempArray[0], tempArray[1]); //
-		// かっこなしのものに変換
-		// }
-		// tempArray = findBrackets(array); // かっこがある位置を返す
-		// // }
-		// System.out.println(tempArray[0] + " " + tempArray[1]);
-		// if (tempArray[0] != 0) {
-		// array = calBrackets(array, tempArray[0], tempArray[1]); //
-		// かっこなしのものに変換
-		// }
-		// tempArray = findBrackets(array); // かっこがある位置を返す
-
-//		System.out.println("掛け算割り算の処理前");
-//		printKeyValue(array);
-		array = changeArray(array); // 掛け算割り算の処理
-//		System.out.println("最終処理の前");
-//		printKeyValue(array);
 		System.out.println(evaluate(array));
 	}
 
@@ -63,10 +34,6 @@ public class Calculator {
 		}
 		return isBrackets;
 	}
-	
-	
-	
-	
 	
 	// かっこを取り除いて計算して、新しいarrayを返す
 	static ArrayList<Number> deleteBracket(ArrayList<Number> array) {
@@ -255,54 +222,6 @@ public class Calculator {
 		bracketsRange[1] = lastBNum + 1;
 		System.out
 				.println("かっこの数は" + bracketsRange[0] + " " + bracketsRange[1]);
-
 		return bracketsRange;
 	}
 }
-
-// if (array.get(i).key == ')') {
-//
-//
-// countBrackets[0]++;
-// firstBNum = i;
-// System.out.println("(" + countBrackets[0]);
-// } else if (array.get(i).key == ')') {
-// countBrackets[1]++;
-// lastBNum = i;
-// System.out.println(")" + countBrackets[1]);
-// }
-// if (countBrackets[0] != 0 & countBrackets[1] != 0
-// & countBrackets[0] == countBrackets[1]) {
-// bracketsRange[0] = firstBNum + 1;
-// bracketsRange[1] = lastBNum + 1;
-// System.out.println("かっこの数は" + countBrackets[0] + " "
-// + countBrackets[1]);
-// return bracketsRange;
-// }
-// }
-
-// static int[] findBrackets(ArrayList<Number> array) {
-// int[] countBrackets = { 0, 0 };
-// int firstBNum = 0;
-// int lastBNum = 0;
-// int[] bracketsRange = { firstBNum, lastBNum };
-
-// for (int i = 0; i < array.size(); i++) {
-// if (array.get(i).key == '(') {
-// countBrackets[0]++;
-// firstBNum = i;
-// System.out.println("(" + countBrackets[0]);
-// } else if (array.get(i).key == ')') {
-// countBrackets[1]++;
-// lastBNum = i;
-// System.out.println(")" + countBrackets[1]);
-// }
-// if (countBrackets[0] != 0 & countBrackets[1] != 0
-// & countBrackets[0] == countBrackets[1]) {
-// bracketsRange[0] = firstBNum + 1;
-// bracketsRange[1] = lastBNum + 1;
-// System.out.println("かっこの数は" + countBrackets[0] + " "
-// + countBrackets[1]);
-// return bracketsRange;
-// }
-// }

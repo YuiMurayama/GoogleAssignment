@@ -1,3 +1,4 @@
+package assignment3;
 public class Number {
 	// token & index
 	char key;
