@@ -12,11 +12,12 @@ public class Calculator {
 		char[] charArray = str.toCharArray();
 		array = makeArray(charArray); 
 		
+		int[] bracketPlace = findBrackets(array);
+	
 		//括弧の処理
-		boolean isBrackets = judgeBrackets(array);
-		while (isBrackets == true) {
+		while (bracketPlace[0] !=1) {
 			array = evaluateBracket(array);
-			isBrackets = judgeBrackets(array);
+			bracketPlace = findBrackets(array);
 		}
 		
 		//掛け算割り算の処理
@@ -27,17 +28,17 @@ public class Calculator {
 		System.out.println("答えは"+answer);
 	}
 
-	//かっこがあるかないかを判定
-	static boolean judgeBrackets(ArrayList<Token> array) {
-		boolean isBrackets = false;
-		for (int a = 0; a < array.size(); a++) {
-			if (array.get(a).key == '(') {
-				isBrackets = true;
-				return isBrackets;
-			}
-		}
-		return isBrackets;
-	}
+//	//かっこがあるかないかを判定
+//	static boolean judgeBrackets(ArrayList<Token> array) {
+//		boolean isBrackets = false;
+//		for (int a = 0; a < array.size(); a++) {
+//			if (array.get(a).key == '(') {
+//				isBrackets = true;
+//				return isBrackets;
+//			}
+//		}
+//		return isBrackets;
+//	}
 
 	// かっこを取り除いて計算して、新しいarrayを返す
 	static ArrayList<Token> evaluateBracket(ArrayList<Token> array) {
