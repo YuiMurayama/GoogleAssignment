@@ -5,22 +5,30 @@ import java.util.Scanner;
 
 public class Calculator {
 	public static void main(String[] args) {
-		ArrayList<Number> array = new ArrayList<Number>();
+		ArrayList<Token> array = new ArrayList<Token>();
 		System.out.println("数式を入力して下さい。");
 		Scanner scan = new Scanner(System.in);
 		String str = scan.next();
 		char[] charArray = str.toCharArray();
-		array = makeArray(charArray); // 数字と記号の配列に変換
-		boolean isBrackets = isBrackets(array);
+		array = makeArray(charArray); 
+		
+		//括弧の処理
+		boolean isBrackets = judgeBrackets(array);
 		while (isBrackets == true) {
-			array = deleteBracket(array);
-			isBrackets = isBrackets(array);
+			array = evaluateBracket(array);
+			isBrackets = judgeBrackets(array);
 		}
-		array = changeArray(array);
-		System.out.println(evaluate(array));
+		
+		//掛け算割り算の処理
+		array = evaluateMultiAndDiv(array);
+	
+		//足し算引き算の処理
+		double answer  = evaluatePlusAndMinus(array);
+		System.out.println("答えは"+answer);
 	}
 
-	static boolean isBrackets(ArrayList<Number> array) {
+	//かっこがあるかないかを判定
+	static boolean judgeBrackets(ArrayList<Token> array) {
 		boolean isBrackets = false;
 		for (int a = 0; a < array.size(); a++) {
 			if (array.get(a).key == '(') {
@@ -32,18 +40,18 @@ public class Calculator {
 	}
 
 	// かっこを取り除いて計算して、新しいarrayを返す
-	static ArrayList<Number> deleteBracket(ArrayList<Number> array) {
-		int[] tempArray = findBrackets(array);
-		if (tempArray[0] != 0) {
-			array = calBrackets(array, tempArray[0], tempArray[1]); // かっこなしのものに変換
+	static ArrayList<Token> evaluateBracket(ArrayList<Token> array) {
+		int[] bracketPlace = findBrackets(array);
+		if (bracketPlace[0] != 0) {
+			array = evaluateBrackets(array, bracketPlace[0], bracketPlace[1]);
 		}
-		tempArray = findBrackets(array);
 		return array;
 	}
-
-	static Number readNum(char[] array, int index) {
+	
+	//inputから数字を生成
+	static Token creatNum(char[] array, int index) {
 		double number = 0;
-		Number n = new Number();
+		Token n = new Token();
 		while (index < array.length) {
 			if (!Character.isDigit(array[index])) {
 				break;
@@ -70,17 +78,17 @@ public class Calculator {
 		return n;
 	}
 
-	static ArrayList<Number> makeArray(char[] charArray) {
-		ArrayList<Number> array = new ArrayList<Number>();
-		Number firstNum = new Number();
+	//数字と記号が含まれるarrayを生成
+	static ArrayList<Token> makeArray(char[] charArray) {
+		ArrayList<Token> array = new ArrayList<Token>();
+		Token firstNum = new Token();
 		firstNum.key = '+';
 		array.add(firstNum);
 		int index = 0;
 		while (index < charArray.length) {
-			Number n = new Number();
+			Token n = new Token();
 			if (Character.isDigit(charArray[index])) {
-				// System.out.println(readNum(charArray, index));
-				n = readNum(charArray, index);
+				n = creatNum(charArray, index);
 			} else if (charArray[index] == '+' | charArray[index] == '-'
 					| charArray[index] == '*' | charArray[index] == '('
 					| charArray[index] == '/' | charArray[index] == ')') {
@@ -92,13 +100,14 @@ public class Calculator {
 			index = n.index + 1;
 			array.add(n);
 		}
-		Number lastNum = new Number();
+		Token lastNum = new Token();
 		lastNum.key = '+';
 		array.add(lastNum);
 		return array;
 	}
-
-	static double evaluate(ArrayList<Number> array) {
+	
+	//＋と−を計算
+	static double evaluatePlusAndMinus(ArrayList<Token> array) {
 		double answer = 0;
 		array.get(0).key = '+';
 		int i = 1;
@@ -118,10 +127,9 @@ public class Calculator {
 	}
 
 	// iからjの範囲の掛け算割り算の計算
-	static ArrayList<Number> calNum(ArrayList<Number> array, int i, int j) {
+	static ArrayList<Token> calMultiAndDiv(ArrayList<Token> array, int i, int j) {
 		double answer = 0;
 		int index = 0;
-
 		// 掛け算割り算の親となる数字を見つけ出す
 		for (int a = i + 1; 0 < i; a--) {
 			if (array.get(a).key == 'n') {
@@ -130,7 +138,6 @@ public class Calculator {
 				break;
 			}
 		}
-
 		int laterIndex = 0;
 		for (int a = i; a < j; a++) {
 			if (array.get(a + 1).key == '*') {
@@ -148,14 +155,14 @@ public class Calculator {
 		}
 		return array;
 	}
-
-	static ArrayList<Number> changeArray(ArrayList<Number> array) {
+	
+	//掛け算割り算の計算
+	static ArrayList<Token> evaluateMultiAndDiv(ArrayList<Token> array) {
 		for (int i = 0; i < array.size(); i++) {
 			for (int j = i + 1; j < array.size(); j++) {
-				// iは*か/のいち、jは＋か-のいち
 				if (array.get(i).key == '*' | array.get(i).key == '/') {
 					if (array.get(j).key == '+' | array.get(j).key == '-') {
-						array = calNum(array, i - 1, j - 1);
+						array = calMultiAndDiv(array, i - 1, j - 1);
 					}
 				}
 			}
@@ -164,25 +171,23 @@ public class Calculator {
 	}
 
 	// キーの表示
-	static void printKeyValue(ArrayList<Number> array) {
+	static void printToken(ArrayList<Token> array) {
 		for (int i = 0; i < array.size(); i++) {
 			System.out.println("keyは" + array.get(i).key + " valueは"
 					+ array.get(i).value);
 		}
 	}
-
-	// かっこないの計算(iは(の番目、jは)の番目)
-
-	static ArrayList<Number> calBrackets(ArrayList<Number> array, int i, int j) {
-		ArrayList<Number> newArray = new ArrayList<Number>();
+	
+	// ()の中の計算
+	static ArrayList<Token> evaluateBrackets(ArrayList<Token> array, int i, int j) {
+		ArrayList<Token> newArray = new ArrayList<Token>();
 		for (int a = i - 1; a < j; a++) {
-			newArray.add(array.get(a)); // 新しいリストの生成
+			newArray.add(array.get(a)); 
 		}
 		newArray.get(0).key = '+';
 		newArray.get(j - i).key = '+';
-		newArray = changeArray(newArray); // 掛け算割り算の処理
-		// System.out.println(evaluate(newArray));
-		array.get(i - 1).value = evaluate(newArray);
+		newArray = evaluateMultiAndDiv(newArray); 
+		array.get(i - 1).value = evaluatePlusAndMinus(newArray);
 		for (int a = i; a < j; a++) {
 			array.get(a).key = '+';
 			array.get(a).value = 0;
@@ -191,8 +196,8 @@ public class Calculator {
 		return array;
 	}
 
-	// かっこの位置を見つけ出して、"("の番号と")"の番号の配列を返す
-	static int[] findBrackets(ArrayList<Number> array) {
+	// かっこの位置を見つけ出して、そのインデックスを返す
+	static int[] findBrackets(ArrayList<Token> array) {
 		int firstBNum = 0;
 		int lastBNum = 0;
 		int[] bracketsRange = { firstBNum, lastBNum };
