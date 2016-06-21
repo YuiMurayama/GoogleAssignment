@@ -12,12 +12,13 @@ class Pagerank {
 			File file = new File(
 					"/Users/murayamayui/Documents/eclipse/GoogleAssignment/src/assignment4/medium_data.txt");
 			ArrayList<Node> nodeArray = new ArrayList<Node>();
+			//ノードの生成
 			for (int index = 0; index < 23; index++) {
 				Node node = new Node();
 				node.nodeName = (char) (index + 65);
 				nodeArray.add(node);
 			}
-			// リンクの生成
+			// パスの生成
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String str;
 			while ((str = br.readLine()) != null) {
