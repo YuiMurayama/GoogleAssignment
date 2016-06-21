@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Node {
 
-	ArrayList<Character> linkList = new ArrayList<Character>();
-	char nodeName;
+	ArrayList<String> linkList = new ArrayList<String>();
+	String nodeName;
 	double point;
 	double nextPoint;
 
@@ -13,8 +13,13 @@ public class Node {
 		// this.linkList = null;
 	}
 	
-	void Exchange(){
+	double Exchange(){
+
+		double error =0;
+		error = Math.pow((nextPoint-point),2);
 		point = nextPoint;
-		nextPoint =0;
+		nextPoint = 0;
+		
+		return error;
 	}
 }
