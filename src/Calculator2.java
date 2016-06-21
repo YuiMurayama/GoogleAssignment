@@ -6,7 +6,7 @@ public class Calculator2 {
 	}
 
 	private void mainLoop(){
-		String str = "2 * {(2 + (2 + 2))}+(2 / 2)";
+		String str = "2 * (2+1*3)";
 		str = str.replace(" ", "");
 		System.out.println(str +" = "+erazeBrackets(str));
 	}

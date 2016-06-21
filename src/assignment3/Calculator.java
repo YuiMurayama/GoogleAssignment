@@ -10,35 +10,22 @@ public class Calculator {
 		Scanner scan = new Scanner(System.in);
 		String str = scan.next();
 		char[] charArray = str.toCharArray();
-		array = makeArray(charArray); 
-		
+		array = makeArray(charArray);
 		int[] bracketPlace = findBrackets(array);
-	
-		//括弧の処理
-		while (bracketPlace[0] !=1) {
+
+		// 括弧の処理
+		while (bracketPlace[0] != 1) {
 			array = evaluateBracket(array);
 			bracketPlace = findBrackets(array);
 		}
-		
-		//掛け算割り算の処理
-		array = evaluateMultiAndDiv(array);
-	
-		//足し算引き算の処理
-		double answer  = evaluatePlusAndMinus(array);
-		System.out.println("答えは"+answer);
-	}
 
-//	//かっこがあるかないかを判定
-//	static boolean judgeBrackets(ArrayList<Token> array) {
-//		boolean isBrackets = false;
-//		for (int a = 0; a < array.size(); a++) {
-//			if (array.get(a).key == '(') {
-//				isBrackets = true;
-//				return isBrackets;
-//			}
-//		}
-//		return isBrackets;
-//	}
+		// 掛け算割り算の処理
+		array = evaluateMultiAndDiv(array);
+
+		// 足し算引き算の処理
+		double answer = evaluatePlusAndMinus(array);
+		System.out.println("答えは" + answer);
+	}
 
 	// かっこを取り除いて計算して、新しいarrayを返す
 	static ArrayList<Token> evaluateBracket(ArrayList<Token> array) {
@@ -48,8 +35,8 @@ public class Calculator {
 		}
 		return array;
 	}
-	
-	//inputから数字を生成
+
+	// inputから数字を生成
 	static Token creatNum(char[] array, int index) {
 		double number = 0;
 		Token n = new Token();
@@ -79,7 +66,7 @@ public class Calculator {
 		return n;
 	}
 
-	//数字と記号が含まれるarrayを生成
+	// 数字と記号が含まれるarrayを生成
 	static ArrayList<Token> makeArray(char[] charArray) {
 		ArrayList<Token> array = new ArrayList<Token>();
 		Token firstNum = new Token();
@@ -106,8 +93,8 @@ public class Calculator {
 		array.add(lastNum);
 		return array;
 	}
-	
-	//＋と−を計算
+
+	// ＋と−を計算
 	static double evaluatePlusAndMinus(ArrayList<Token> array) {
 		double answer = 0;
 		array.get(0).key = '+';
@@ -156,8 +143,8 @@ public class Calculator {
 		}
 		return array;
 	}
-	
-	//掛け算割り算の計算
+
+	// 掛け算割り算の計算
 	static ArrayList<Token> evaluateMultiAndDiv(ArrayList<Token> array) {
 		for (int i = 0; i < array.size(); i++) {
 			for (int j = i + 1; j < array.size(); j++) {
@@ -178,16 +165,17 @@ public class Calculator {
 					+ array.get(i).value);
 		}
 	}
-	
+
 	// ()の中の計算
-	static ArrayList<Token> evaluateBrackets(ArrayList<Token> array, int i, int j) {
+	static ArrayList<Token> evaluateBrackets(ArrayList<Token> array, int i,
+			int j) {
 		ArrayList<Token> newArray = new ArrayList<Token>();
 		for (int a = i - 1; a < j; a++) {
-			newArray.add(array.get(a)); 
+			newArray.add(array.get(a));
 		}
 		newArray.get(0).key = '+';
 		newArray.get(j - i).key = '+';
-		newArray = evaluateMultiAndDiv(newArray); 
+		newArray = evaluateMultiAndDiv(newArray);
 		array.get(i - 1).value = evaluatePlusAndMinus(newArray);
 		for (int a = i; a < j; a++) {
 			array.get(a).key = '+';
