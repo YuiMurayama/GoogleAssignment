@@ -1,4 +1,5 @@
 package assignment4;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -10,9 +11,8 @@ class Pagerank {
 	public static void main(String args[]) {
 		try {
 			File file = new File(
-					"/Users/murayamayui/Documents/eclipse/GoogleAssignment/src/assignment4/medium_data.txt");
+					"/Users/murayamayui/Documents/eclipse/GoogleAssignment/src/assignment4/bad_example.txt");
 			ArrayList<Node> nodeArray = new ArrayList<Node>();
-
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String str = br.readLine();
 			int nodeNum = Integer.parseInt(str);
@@ -31,11 +31,13 @@ class Pagerank {
 			br.close();
 
 			// pageRankの計算をi回
-			for (int i = 0; i < 150; i++) {
+			for (int i = 0; i < 10; i++) {
 				nodeArray = calPageRank(nodeArray);
+				printNode(nodeArray);
 			}
-			//結果を出力
-			printNode(nodeArray);
+			// 結果を出力
+//			printNode(nodeArray);
+			
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		} catch (IOException e) {
@@ -45,7 +47,6 @@ class Pagerank {
 
 	// linkListをつくる
 	static ArrayList<Node> makePass(String str, ArrayList<Node> nodeArray) {
-
 		String[] stringArray = str.split(" ");
 		for (int i = 0; i < nodeArray.size(); i++) {
 			if (nodeArray.get(i).nodeName.equals(stringArray[0])) {
@@ -60,9 +61,8 @@ class Pagerank {
 	static void printNode(ArrayList<Node> nodeArray) {
 		double allPoint = 0;
 		for (int i = 0; i < nodeArray.size(); i++) {
-			System.out.print(nodeArray.get(i).nodeName);
-			System.out.print("の得点は" + nodeArray.get(i).point);
-//			System.out.print(" 次の得点は" + (int) nodeArray.get(i).nextPoint);
+			System.out.print(nodeArray.get(i).nodeName + "の得点は"
+					+ (int)nodeArray.get(i).point);
 			allPoint += nodeArray.get(i).point;
 			System.out.println();
 		}
@@ -95,10 +95,10 @@ class Pagerank {
 	static ArrayList<Node> exchangePoint(ArrayList<Node> nodeArray) {
 		double error = 0;
 		for (int i = 0; i < nodeArray.size(); i++) {
-			error += nodeArray.get(i).Exchange();
+			error += nodeArray.get(i).exchange();
 		}
 		error = Math.sqrt(error / nodeArray.size());
-//		System.out.println(error);
+		System.out.println(error);
 		return nodeArray;
 	}
 }

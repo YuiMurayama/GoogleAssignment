@@ -7,19 +7,16 @@ public class Node {
 	String nodeName;
 	double point;
 	double nextPoint;
-
+	
 	Node() {
 		this.point = 100;
 		// this.linkList = null;
-	}
-	
-	double Exchange(){
-
+	}	
+	double exchange(){
 		double error =0;
 		error = Math.pow((nextPoint-point),2);
 		point = nextPoint;
 		nextPoint = 0;
-		
 		return error;
 	}
 }

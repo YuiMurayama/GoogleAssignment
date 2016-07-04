@@ -2,8 +2,8 @@
 A
 B
 C
-4
+3
 A B
 B A
-A C
 B C
+C B
