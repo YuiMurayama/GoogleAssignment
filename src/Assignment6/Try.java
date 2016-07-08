@@ -16,10 +16,11 @@ import java.util.List;
 public class Try {
 	public static void main(String[] args) {
 		try {
-			for (int fileNum = 4; fileNum < 7; fileNum++) {
+			for (int fileNum = 0; fileNum < 7; fileNum++) {
 				// 座標の読み取り
 				String fileplace = "/Users/murayamayui/Documents/eclipse/GoogleAssignment/src/assignment6/";
 				int kaisu = 1000;
+				int reverseNum = 6000;
 				HashMap<Integer, double[]> cities = get_file(fileplace
 						+ "input_" + fileNum + ".csv");
 				int cityNum = cities.size();
@@ -49,47 +50,53 @@ public class Try {
 				// パスの交換
 				double first_allDistance = cal_allDistance(visit_order_array,
 						cities);
+				System.out.println(first_allDistance);
+				
 				boolean isfirst = true;
+				double shortest_length = first_allDistance;
+				
 				for (int t = 0; t < kaisu; t++) {
-//					print_array(visit_order_array);
-					// System.out.println(t+"回目");
 					if (isfirst == false) {
-//						System.out.println("全部変更");
 						change_path_random(visit_order_array);
-//						print_array(visit_order_array);
+						first_allDistance = cal_allDistance(visit_order_array,
+								cities);
+						// print_array(visit_order_array);
 					}
 					isfirst = false;
+					for (int u = 0; u < reverseNum; u++) {
+						int i = 0;
+						int s = 0;
+						while (i == s | s < i) {
+							i = (int) (Math.random()
+									* (visit_order_array.length - 1) + 1);
+							s = (int) (Math.random() * (visit_order_array.length - 1));
+						}
 
-					outside: {
-						for (int reverseNum = 0; reverseNum < 1000; reverseNum++) {
-							
-							int i = 0;
-							int s = 0;
-							while (i == s | s < i) {
-								i = (int) (Math.random() * (visit_order_array.length - 1));
-								s = (int) (Math.random() * (visit_order_array.length - 1));
-							}
-							int[] tempVisit_order_array = (int[]) visit_order_array
-									.clone();
-							change_path(i, s, tempVisit_order_array);
-//							System.out.println(i+"帰る番号 " +s);
-//							print_array(tempVisit_order_array);							
-							double changed_allDistance = cal_allDistance(
-									tempVisit_order_array, cities);
-							if (first_allDistance > changed_allDistance) {
-								System.out.print("更新");
-								System.out.println(t + "回目は"
-										+ first_allDistance);
-								first_allDistance = changed_allDistance;
-								visit_order_array = tempVisit_order_array;
-//								break outside;
-							}
+						int[] tempVisit_order_array = (int[]) visit_order_array
+								.clone();
+						
+						double changed_allDistance = changed_path_allDistance(
+								i, s, first_allDistance, cities,
+								visit_order_array);
+
+						if (shortest_length > changed_allDistance) {
+//							System.out.println("最初は" + first_allDistance);
+//							System.out.println("変化後" + changed_allDistance);
+					
+							 shortest_length = changed_allDistance;
+							// アレイの更新
+							visit_order_array = change_path(i, s,
+									tempVisit_order_array);
+							// break outside;
+							//
+							// }
+						}
 						}
 					}
-				}
+				
 				// }
 
-				System.out.println(fileNum + "番目の最終は" + first_allDistance);
+				System.out.println(fileNum + "番目の最終は" + shortest_length);
 				fw = new FileWriter(fileplace + "solution_yours_" + fileNum
 						+ ".csv", false);
 				pw = new PrintWriter(new BufferedWriter(fw));
@@ -222,7 +229,8 @@ public class Try {
 		double distance = Math.sqrt((Math.pow(
 				(cities.get(fromNum)[0] - cities.get(toNum)[0]), 2) + Math.pow(
 				(cities.get(fromNum)[1] - cities.get(toNum)[1]), 2)));
-		// System.out.println("個別の距離は" + distance);
+		// System.out.println(fromNum +"から"+toNum+"までの"+"個別の距離は" + distance);
+
 		return distance;
 	}
 
@@ -237,6 +245,7 @@ public class Try {
 		// System.out.println();
 
 		for (int i = 0; i < visit_order_array.length - 1; i++) {
+
 			all_Distance += cal_distance(visit_order_array[i],
 					visit_order_array[i + 1], cities);
 		}
@@ -244,6 +253,27 @@ public class Try {
 				visit_order_array[visit_order_array.length - 1], cities);
 
 		return all_Distance;
+
+	}
+
+	static double changed_path_allDistance(int firstNum, int lastNum,
+			double pre_allDis, HashMap<Integer, double[]> cities,
+			int[] visit_order_array) {
+		double changed_allDis = 0;
+
+		int a = visit_order_array[firstNum - 1];
+		int b = visit_order_array[firstNum];
+		int c = visit_order_array[lastNum];
+		int d = visit_order_array[lastNum + 1];
+
+		pre_allDis -= cal_distance(a, b, cities);
+		pre_allDis -= cal_distance(c, d, cities);
+
+		pre_allDis += cal_distance(a, c, cities);
+		pre_allDis += cal_distance(b, d, cities);
+
+		changed_allDis = pre_allDis;
+		return changed_allDis;
 
 	}
 
