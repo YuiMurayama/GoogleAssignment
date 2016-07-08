@@ -16,11 +16,11 @@ import java.util.List;
 public class Try {
 	public static void main(String[] args) {
 		try {
-			for (int fileNum = 0; fileNum < 7; fileNum++) {
+			for (int fileNum = 5; fileNum < 7; fileNum++) {
 				// 座標の読み取り
 				String fileplace = "/Users/murayamayui/Documents/eclipse/GoogleAssignment/src/assignment6/";
-				int kaisu = 1000;
-				int reverseNum = 6000;
+				int kaisu = 100;
+	
 				HashMap<Integer, double[]> cities = get_file(fileplace
 						+ "input_" + fileNum + ".csv");
 				int cityNum = cities.size();
@@ -51,10 +51,10 @@ public class Try {
 				double first_allDistance = cal_allDistance(visit_order_array,
 						cities);
 				System.out.println(first_allDistance);
-				
+
 				boolean isfirst = true;
 				double shortest_length = first_allDistance;
-				
+
 				for (int t = 0; t < kaisu; t++) {
 					if (isfirst == false) {
 						change_path_random(visit_order_array);
@@ -63,37 +63,44 @@ public class Try {
 						// print_array(visit_order_array);
 					}
 					isfirst = false;
-					for (int u = 0; u < reverseNum; u++) {
-						int i = 0;
-						int s = 0;
-						while (i == s | s < i) {
-							i = (int) (Math.random()
-									* (visit_order_array.length - 1) + 1);
-							s = (int) (Math.random() * (visit_order_array.length - 1));
-						}
+					// for (int u = 0; u < reverseNum; u++) {
 
-						int[] tempVisit_order_array = (int[]) visit_order_array
-								.clone();
-						
-						double changed_allDistance = changed_path_allDistance(
-								i, s, first_allDistance, cities,
-								visit_order_array);
+					for (int i = 2; i < visit_order_array.length - 2; i++) {
+						for (int s = i + 1; s < visit_order_array.length - 1; s++) {
 
-						if (shortest_length > changed_allDistance) {
-//							System.out.println("最初は" + first_allDistance);
-//							System.out.println("変化後" + changed_allDistance);
-					
-							 shortest_length = changed_allDistance;
-							// アレイの更新
-							visit_order_array = change_path(i, s,
-									tempVisit_order_array);
-							// break outside;
-							//
+							// int i = 0;
+							// int s = 0;
+							// while (i == s | s < i) {
+							// i = (int) (Math.random()
+							// * (visit_order_array.length - 1) + 1);
+							// s = (int) (Math.random() *
+							// (visit_order_array.length - 1));
 							// }
-						}
+
+							int[] tempVisit_order_array = (int[]) visit_order_array
+									.clone();
+
+							double changed_allDistance = changed_path_allDistance(
+									i, s, first_allDistance, cities,
+									visit_order_array);
+
+							if (shortest_length > changed_allDistance) {
+								// System.out.println("最初は" +
+								// first_allDistance);
+								// System.out.println("変化後" +
+								// changed_allDistance);
+
+								shortest_length = changed_allDistance;
+								visit_order_array = change_path(i, s,
+										tempVisit_order_array);
+								// break outside;
+								//
+								// }
+							}
 						}
 					}
-				
+				}
+
 				// }
 
 				System.out.println(fileNum + "番目の最終は" + shortest_length);
