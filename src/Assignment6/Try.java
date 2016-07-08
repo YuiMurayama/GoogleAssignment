@@ -13,13 +13,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class Main {
+public class Try {
 	public static void main(String[] args) {
 		try {
 			for (int fileNum = 4; fileNum < 7; fileNum++) {
 				// 座標の読み取り
 				String fileplace = "/Users/murayamayui/Documents/eclipse/GoogleAssignment/src/assignment6/";
-				int kaisu = 1;
+				int kaisu = 1000;
 				HashMap<Integer, double[]> cities = get_file(fileplace
 						+ "input_" + fileNum + ".csv");
 				int cityNum = cities.size();
@@ -51,37 +51,38 @@ public class Main {
 						cities);
 				boolean isfirst = true;
 				for (int t = 0; t < kaisu; t++) {
+//					print_array(visit_order_array);
 					// System.out.println(t+"回目");
 					if (isfirst == false) {
+//						System.out.println("全部変更");
 						change_path_random(visit_order_array);
+//						print_array(visit_order_array);
 					}
 					isfirst = false;
 
 					outside: {
-
-						for (int i = 0; i < visit_order_array.length - 5; i++) {
-							for (int s = i + 4; s < visit_order_array.length; s++) {
-
-//								int i = 0;
-//								int s = 0;
-//								while (i == s | s < i) {
-//									i = (int) (Math.random() * (visit_order_array.length - 1));
-//									s = (int) (Math.random() * (visit_order_array.length - 1));
-//								}
-								int[] tempVisit_order_array = (int[]) visit_order_array
-										.clone();
-								change_path(i, s, tempVisit_order_array);
-								double changed_allDistance = cal_allDistance(
-										tempVisit_order_array, cities);
-								if (first_allDistance > changed_allDistance) {
-									System.out.print("更新");
-									System.out.println(t + "回目は"
-											+ first_allDistance);
-									first_allDistance = changed_allDistance;
-									visit_order_array = tempVisit_order_array;
-									break outside;
-								}
-
+						for (int reverseNum = 0; reverseNum < 1000; reverseNum++) {
+							
+							int i = 0;
+							int s = 0;
+							while (i == s | s < i) {
+								i = (int) (Math.random() * (visit_order_array.length - 1));
+								s = (int) (Math.random() * (visit_order_array.length - 1));
+							}
+							int[] tempVisit_order_array = (int[]) visit_order_array
+									.clone();
+							change_path(i, s, tempVisit_order_array);
+//							System.out.println(i+"帰る番号 " +s);
+//							print_array(tempVisit_order_array);							
+							double changed_allDistance = cal_allDistance(
+									tempVisit_order_array, cities);
+							if (first_allDistance > changed_allDistance) {
+								System.out.print("更新");
+								System.out.println(t + "回目は"
+										+ first_allDistance);
+								first_allDistance = changed_allDistance;
+								visit_order_array = tempVisit_order_array;
+//								break outside;
 							}
 						}
 					}
